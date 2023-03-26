@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "author": "zwvilli <1838612269@qq.com>",
+  "scripts": {
+    "dev": "max dev",
+    "build": "prisma generate && umi build",
+    "format": "prettier --cache --write .",
+    "postinstall": "max setup",
+    "setup": "max setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.7.0",
+    "@ant-design/pro-components": "^2.0.1",
+    "@prisma/client": "^4.11.0",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@umijs/max": "^4.0.63",
+    "@upstash/redis": "^1.0.2",
+    "antd": "^5.0.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.0",
+    "prisma": "^4.11.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^2",
+    "prettier-plugin-packagejson": "^2",
+    "typescript": "^5.0.0",
+    "tailwindcss": "^3"
+  }
+}
