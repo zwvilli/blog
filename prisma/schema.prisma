@@ -10,17 +10,20 @@ datasource db {
 }
 
 model Post {
-    id        Int      @id @default(autoincrement())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    title     String   @db.VarChar(255)
-    content   String?
-    author    User     @relation(fields: [authorId], references: [id])
-    authorId  Int
-    imageUrl  String?
-    tags      String
+    id         Int      @id @default(autoincrement())
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+    title      String   @db.VarChar(255)
+    content    String?
+    author     User     @relation(fields: [authorId], references: [id])
+    authorId   Int
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
+    imageUrl   String?  @db.VarChar(255)
+    tags       String
 
     @@index(authorId)
+    @@index(categoryId)
 }
 
 model User {
@@ -29,5 +32,14 @@ model User {
     passwordHash String
     name         String?
     posts        Post[]
-    avatarUrl    String?
+    avatarUrl    String? @db.VarChar(255)
+    introduce    String?
+    isAvailable  Boolean @default(true)
+    level        Int     @default(1)
+}
+
+model Category {
+    id    Int    @id @default(autoincrement())
+    name  String @unique
+    posts Post[]
 }

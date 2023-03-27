@@ -21,13 +21,13 @@ const HomePage: React.FC = () => {
     }
 
   }
-  useEffect(() => {
-    refresh()
-  }, [])
+  // useEffect(() => {
+  //   refresh()
+  // }, [])
 
   return (
     <div>
-      {!posts && <p>loading...</p>}
+      {/* {!posts && <p>loading...</p>}
       {
         posts && <div>
           {
@@ -38,7 +38,8 @@ const HomePage: React.FC = () => {
             </div>)
           }
         </div>
-      }
+      } */}
+      首页
     </div>
   )
 };

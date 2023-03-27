@@ -1,14 +1,13 @@
 import type { UmiApiRequest, UmiApiResponse } from "umi";
 import { PrismaClient } from '@prisma/client'
-import { verifyToken } from "@/utils/jwt";
 
 export default async function (req: UmiApiRequest, res: UmiApiResponse) {
     let prisma: PrismaClient
     switch (req.method) {
         case 'GET':
             prisma = new PrismaClient()
-            const allPosts = await prisma.post.findMany({ include: { author: true } })
-            res.status(200).json(allPosts)
+            const allCategory = await prisma.category.findMany()
+            res.status(200).json(allCategory)
             await prisma.$disconnect()
             break;
         case 'POST':
@@ -16,24 +15,15 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {
             //     return res.status(400).json({ message: "Unauthorized" })
             // }
             // const authorId = (await verifyToken(req.cookies.token)).id
-            const authorId = 1
-            const categoryId = 1
+            // const authorId = 1
             prisma = new PrismaClient()
-            const newPost = await prisma.post.create({
+            const newCategory = await prisma.category.create({
                 data: {
-                    title: req.body.title,
-                    content: req.body.content,
-                    createdAt: new Date(),
-                    tags: req.body.tags,
-                    authorId,
-                    categoryId,
-                    imageUrl: req.body.imageUrl
-
+                    name: req.body.name
                 }
             })
-            res.status(200).json(newPost)
+            res.status(200).json(newCategory)
             await prisma.$disconnect()
-
             break;
         default:
             res.status(405).json({ error: "Method not allowed." })

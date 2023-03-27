@@ -7905,6 +7905,10 @@ var require_client = __commonJS({
     function makeEnum(x) {
       return x;
     }
+    exports2.Prisma.CategoryScalarFieldEnum = makeEnum({
+      id: "id",
+      name: "name"
+    });
     exports2.Prisma.PostScalarFieldEnum = makeEnum({
       id: "id",
       createdAt: "createdAt",
@@ -7912,6 +7916,7 @@ var require_client = __commonJS({
       title: "title",
       content: "content",
       authorId: "authorId",
+      categoryId: "categoryId",
       imageUrl: "imageUrl",
       tags: "tags"
     });
@@ -7930,13 +7935,17 @@ var require_client = __commonJS({
       email: "email",
       passwordHash: "passwordHash",
       name: "name",
-      avatarUrl: "avatarUrl"
+      avatarUrl: "avatarUrl",
+      introduce: "introduce",
+      isAvailable: "isAvailable",
+      level: "level"
     });
     exports2.Prisma.ModelName = makeEnum({
       Post: "Post",
-      User: "User"
+      User: "User",
+      Category: "Category"
     });
-    var dmmfString = '{"datamodel":{"enums":[],"models":[{"name":"Post","dbName":null,"fields":[{"name":"id","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":true,"isReadOnly":false,"hasDefaultValue":true,"type":"Int","default":{"name":"autoincrement","args":[]},"isGenerated":false,"isUpdatedAt":false},{"name":"createdAt","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":true,"type":"DateTime","default":{"name":"now","args":[]},"isGenerated":false,"isUpdatedAt":false},{"name":"updatedAt","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"DateTime","isGenerated":false,"isUpdatedAt":true},{"name":"title","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"content","kind":"scalar","isList":false,"isRequired":false,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"author","kind":"object","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"User","relationName":"PostToUser","relationFromFields":["authorId"],"relationToFields":["id"],"isGenerated":false,"isUpdatedAt":false},{"name":"authorId","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":true,"hasDefaultValue":false,"type":"Int","isGenerated":false,"isUpdatedAt":false},{"name":"imageUrl","kind":"scalar","isList":false,"isRequired":false,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"tags","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false}],"primaryKey":null,"uniqueFields":[],"uniqueIndexes":[],"isGenerated":false},{"name":"User","dbName":null,"fields":[{"name":"id","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":true,"isReadOnly":false,"hasDefaultValue":true,"type":"Int","default":{"name":"autoincrement","args":[]},"isGenerated":false,"isUpdatedAt":false},{"name":"email","kind":"scalar","isList":false,"isRequired":true,"isUnique":true,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"passwordHash","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"name","kind":"scalar","isList":false,"isRequired":false,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"posts","kind":"object","isList":true,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"Post","relationName":"PostToUser","relationFromFields":[],"relationToFields":[],"isGenerated":false,"isUpdatedAt":false},{"name":"avatarUrl","kind":"scalar","isList":false,"isRequired":false,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false}],"primaryKey":null,"uniqueFields":[],"uniqueIndexes":[],"isGenerated":false}],"types":[]},"mappings":{"modelOperations":[{"model":"Post","plural":"posts","findUnique":"findUniquePost","findUniqueOrThrow":"findUniquePostOrThrow","findFirst":"findFirstPost","findFirstOrThrow":"findFirstPostOrThrow","findMany":"findManyPost","create":"createOnePost","createMany":"createManyPost","delete":"deleteOnePost","update":"updateOnePost","deleteMany":"deleteManyPost","updateMany":"updateManyPost","upsert":"upsertOnePost","aggregate":"aggregatePost","groupBy":"groupByPost"},{"model":"User","plural":"users","findUnique":"findUniqueUser","findUniqueOrThrow":"findUniqueUserOrThrow","findFirst":"findFirstUser","findFirstOrThrow":"findFirstUserOrThrow","findMany":"findManyUser","create":"createOneUser","createMany":"createManyUser","delete":"deleteOneUser","update":"updateOneUser","deleteMany":"deleteManyUser","updateMany":"updateManyUser","upsert":"upsertOneUser","aggregate":"aggregateUser","groupBy":"groupByUser"}],"otherOperations":{"read":[],"write":["executeRaw","queryRaw"]}}}';
+    var dmmfString = '{"datamodel":{"enums":[],"models":[{"name":"Post","dbName":null,"fields":[{"name":"id","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":true,"isReadOnly":false,"hasDefaultValue":true,"type":"Int","default":{"name":"autoincrement","args":[]},"isGenerated":false,"isUpdatedAt":false},{"name":"createdAt","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":true,"type":"DateTime","default":{"name":"now","args":[]},"isGenerated":false,"isUpdatedAt":false},{"name":"updatedAt","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"DateTime","isGenerated":false,"isUpdatedAt":true},{"name":"title","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"content","kind":"scalar","isList":false,"isRequired":false,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"author","kind":"object","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"User","relationName":"PostToUser","relationFromFields":["authorId"],"relationToFields":["id"],"isGenerated":false,"isUpdatedAt":false},{"name":"authorId","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":true,"hasDefaultValue":false,"type":"Int","isGenerated":false,"isUpdatedAt":false},{"name":"category","kind":"object","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"Category","relationName":"CategoryToPost","relationFromFields":["categoryId"],"relationToFields":["id"],"isGenerated":false,"isUpdatedAt":false},{"name":"categoryId","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":true,"hasDefaultValue":false,"type":"Int","isGenerated":false,"isUpdatedAt":false},{"name":"imageUrl","kind":"scalar","isList":false,"isRequired":false,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"tags","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false}],"primaryKey":null,"uniqueFields":[],"uniqueIndexes":[],"isGenerated":false},{"name":"User","dbName":null,"fields":[{"name":"id","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":true,"isReadOnly":false,"hasDefaultValue":true,"type":"Int","default":{"name":"autoincrement","args":[]},"isGenerated":false,"isUpdatedAt":false},{"name":"email","kind":"scalar","isList":false,"isRequired":true,"isUnique":true,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"passwordHash","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"name","kind":"scalar","isList":false,"isRequired":false,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"posts","kind":"object","isList":true,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"Post","relationName":"PostToUser","relationFromFields":[],"relationToFields":[],"isGenerated":false,"isUpdatedAt":false},{"name":"avatarUrl","kind":"scalar","isList":false,"isRequired":false,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"introduce","kind":"scalar","isList":false,"isRequired":false,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"isAvailable","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":true,"type":"Boolean","default":true,"isGenerated":false,"isUpdatedAt":false},{"name":"level","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":true,"type":"Int","default":1,"isGenerated":false,"isUpdatedAt":false}],"primaryKey":null,"uniqueFields":[],"uniqueIndexes":[],"isGenerated":false},{"name":"Category","dbName":null,"fields":[{"name":"id","kind":"scalar","isList":false,"isRequired":true,"isUnique":false,"isId":true,"isReadOnly":false,"hasDefaultValue":true,"type":"Int","default":{"name":"autoincrement","args":[]},"isGenerated":false,"isUpdatedAt":false},{"name":"name","kind":"scalar","isList":false,"isRequired":true,"isUnique":true,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"String","isGenerated":false,"isUpdatedAt":false},{"name":"posts","kind":"object","isList":true,"isRequired":true,"isUnique":false,"isId":false,"isReadOnly":false,"hasDefaultValue":false,"type":"Post","relationName":"CategoryToPost","relationFromFields":[],"relationToFields":[],"isGenerated":false,"isUpdatedAt":false}],"primaryKey":null,"uniqueFields":[],"uniqueIndexes":[],"isGenerated":false}],"types":[]},"mappings":{"modelOperations":[{"model":"Post","plural":"posts","findUnique":"findUniquePost","findUniqueOrThrow":"findUniquePostOrThrow","findFirst":"findFirstPost","findFirstOrThrow":"findFirstPostOrThrow","findMany":"findManyPost","create":"createOnePost","createMany":"createManyPost","delete":"deleteOnePost","update":"updateOnePost","deleteMany":"deleteManyPost","updateMany":"updateManyPost","upsert":"upsertOnePost","aggregate":"aggregatePost","groupBy":"groupByPost"},{"model":"User","plural":"users","findUnique":"findUniqueUser","findUniqueOrThrow":"findUniqueUserOrThrow","findFirst":"findFirstUser","findFirstOrThrow":"findFirstUserOrThrow","findMany":"findManyUser","create":"createOneUser","createMany":"createManyUser","delete":"deleteOneUser","update":"updateOneUser","deleteMany":"deleteManyUser","updateMany":"updateManyUser","upsert":"upsertOneUser","aggregate":"aggregateUser","groupBy":"groupByUser"},{"model":"Category","plural":"categories","findUnique":"findUniqueCategory","findUniqueOrThrow":"findUniqueCategoryOrThrow","findFirst":"findFirstCategory","findFirstOrThrow":"findFirstCategoryOrThrow","findMany":"findManyCategory","create":"createOneCategory","createMany":"createManyCategory","delete":"deleteOneCategory","update":"updateOneCategory","deleteMany":"deleteManyCategory","updateMany":"updateManyCategory","upsert":"upsertOneCategory","aggregate":"aggregateCategory","groupBy":"groupByCategory"}],"otherOperations":{"read":[],"write":["executeRaw","queryRaw"]}}}';
     var dmmf = JSON.parse(dmmfString);
     exports2.Prisma.dmmf = JSON.parse(dmmfString);
     var config = {
@@ -19564,7 +19573,37 @@ async function register_default(req, res) {
 
 // src/.umi/api/register.ts
 var import_apiRoute = __toESM(require_apiRoute());
-var apiRoutes = [{ "path": "posts/[postId]", "id": "posts/[postId]", "file": "posts/[postId].ts", "absPath": "/posts/[postId]", "__content": `import type { UmiApiRequest, UmiApiResponse } from "umi";\r
+var apiRoutes = [{ "path": "category", "id": "category/index", "file": "category/index.ts", "absPath": "/category", "__content": `import type { UmiApiRequest, UmiApiResponse } from "umi";\r
+import { PrismaClient } from '@prisma/client'\r
+\r
+export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
+    let prisma: PrismaClient\r
+    switch (req.method) {\r
+        case 'GET':\r
+            prisma = new PrismaClient()\r
+            const allCategory = await prisma.category.findMany()\r
+            res.status(200).json(allCategory)\r
+            await prisma.$disconnect()\r
+            break;\r
+        case 'POST':\r
+            // if (!req.cookies?.token) {\r
+            //     return res.status(400).json({ message: "Unauthorized" })\r
+            // }\r
+            // const authorId = (await verifyToken(req.cookies.token)).id\r
+            // const authorId = 1\r
+            prisma = new PrismaClient()\r
+            const newCategory = await prisma.category.create({\r
+                data: {\r
+                    name: req.body.name\r
+                }\r
+            })\r
+            res.status(200).json(newCategory)\r
+            await prisma.$disconnect()\r
+            break;\r
+        default:\r
+            res.status(405).json({ error: "Method not allowed." })\r
+    }\r
+}` }, { "path": "posts/[postId]", "id": "posts/[postId]", "file": "posts/[postId].ts", "absPath": "/posts/[postId]", "__content": `import type { UmiApiRequest, UmiApiResponse } from "umi";\r
 import { PrismaClient } from '@prisma/client'\r
 import { verifyToken } from "@/utils/jwt";\r
 import { Redis } from "@upstash/redis";\r
@@ -19580,7 +19619,7 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
                 return\r
             } else {\r
                 prisma = new PrismaClient()\r
-                post = prisma.post.findUnique({\r
+                post = await prisma.post.findUnique({\r
                     where: { id: +req.params.postId },\r
                     include: { author: true }\r
                 })\r
@@ -19597,6 +19636,60 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
         default:\r
             res.status(405).json({ error: "Method not allowed" })\r
     }\r
+}` }, { "path": "user/[userId]", "id": "user/[userId]", "file": "user/[userId].ts", "absPath": "/user/[userId]", "__content": `import type { UmiApiRequest, UmiApiResponse } from "umi";\r
+import { PrismaClient } from '@prisma/client'\r
+// import { Redis } from "@upstash/redis";\r
+\r
+export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
+    let prisma: PrismaClient\r
+    let user: any\r
+    switch (req.method) {\r
+        case 'GET':\r
+            // const redis = Redis.fromEnv()\r
+            // user = await redis.get('user-' + req.params.userId)\r
+            // if (user) {\r
+            //     res.status(200).json(user)\r
+            //     return\r
+            // } else {\r
+            prisma = new PrismaClient()\r
+            user = await prisma.user.findUnique({\r
+                where: { id: +req.params.userId },\r
+\r
+            })\r
+            if (user) {\r
+                res.status(200).json(user)\r
+            }\r
+            else {\r
+                res.status(404).json({ merror: "page not found" })\r
+            }\r
+            // await redis.set('user-' + req.params.userId, JSON.stringify(user))\r
+            prisma.$disconnect()\r
+            // }\r
+            break;\r
+        case 'POST':\r
+            try {\r
+                prisma = new PrismaClient()\r
+                user = await prisma.user.update({\r
+                    where: { id: +req.body.userId },\r
+                    data: {\r
+                        name: req.body.name,\r
+                        avatarUrl: req.body.avatarUrl,\r
+                        introduce: req.body.introduce,\r
+                        isAvailable: Boolean(req.body.isAvailable)\r
+                    }\r
+                })\r
+                res.status(201).json({ ...user, passwordHash: undefined })\r
+                await prisma.$disconnect()\r
+            } catch (error: any) {\r
+                res.status(500).json({\r
+                    result: false,\r
+                    message: typeof error.code === 'string' ? 'https://www.prisma.io/docs/reference/api-reference/error-reference#' + error.code.toLowerCase() : error\r
+                })\r
+            }\r
+            break\r
+        default:\r
+            res.status(405).json({ error: "Method not allowed" })\r
+    }\r
 }` }, { "path": "posts", "id": "posts/index", "file": "posts/index.ts", "absPath": "/posts", "__content": `import type { UmiApiRequest, UmiApiResponse } from "umi";\r
 import { PrismaClient } from '@prisma/client'\r
 import { verifyToken } from "@/utils/jwt";\r
@@ -19606,16 +19699,17 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
     switch (req.method) {\r
         case 'GET':\r
             prisma = new PrismaClient()\r
-            const allPosts = prisma.post.findMany({ include: { author: true } })\r
+            const allPosts = await prisma.post.findMany({ include: { author: true } })\r
             res.status(200).json(allPosts)\r
             await prisma.$disconnect()\r
             break;\r
         case 'POST':\r
-            if (!req.cookies?.token) {\r
-                return res.status(400).json({ message: "Unauthorized" })\r
-            }\r
-            const authorId = (await verifyToken(req.cookies.token)).id\r
-            // const authorId = 1\r
+            // if (!req.cookies?.token) {\r
+            //     return res.status(400).json({ message: "Unauthorized" })\r
+            // }\r
+            // const authorId = (await verifyToken(req.cookies.token)).id\r
+            const authorId = 1\r
+            const categoryId = 1\r
             prisma = new PrismaClient()\r
             const newPost = await prisma.post.create({\r
                 data: {\r
@@ -19624,12 +19718,55 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
                     createdAt: new Date(),\r
                     tags: req.body.tags,\r
                     authorId,\r
+                    categoryId,\r
                     imageUrl: req.body.imageUrl\r
 \r
                 }\r
             })\r
             res.status(200).json(newPost)\r
             await prisma.$disconnect()\r
+\r
+            break;\r
+        default:\r
+            res.status(405).json({ error: "Method not allowed." })\r
+    }\r
+}` }, { "path": "user", "id": "user/index", "file": "user/index.ts", "absPath": "/user", "__content": `import type { UmiApiRequest, UmiApiResponse } from "umi";\r
+import { PrismaClient } from '@prisma/client'\r
+import bcrypt from 'bcryptjs'\r
+\r
+export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
+    let prisma: PrismaClient\r
+    switch (req.method) {\r
+        case 'GET':\r
+            prisma = new PrismaClient()\r
+            const allUser = await prisma.user.findMany()\r
+            res.status(200).json(allUser)\r
+            await prisma.$disconnect()\r
+            break;\r
+        case 'POST':\r
+            try {\r
+                prisma = new PrismaClient()\r
+                //\u7528\u6237\u6570\u636E\r
+                const user = await prisma.user.create({\r
+                    data: {\r
+                        name: req.body.name,\r
+                        email: req.body.email,\r
+                        passwordHash: bcrypt.hashSync(req.body.password, 8),\r
+                        avatarUrl: req.body.avatarUrl,\r
+                        introduce: req.body.introduce,\r
+                        level: req.body.level\r
+                    }\r
+                })\r
+                //\u5C06\u7528\u6237\u6570\u636E\uFF08\u4E0D\u5305\u542B\u5BC6\u7801\uFF09\u548CJWT\u4F20\u56DE\u53BB\r
+                res.status(201).json({ ...user, passwordHash: undefined })\r
+                await prisma.$disconnect()\r
+            } catch (error: any) {\r
+                //\u53D1\u751F\u4E86\u9519\u8BEF\r
+                res.status(500).json({\r
+                    result: false,\r
+                    message: typeof error.code === 'string' ? 'https://www.prisma.io/docs/reference/api-reference/error-reference#' + error.code.toLowerCase() : error\r
+                })\r
+            }\r
 \r
             break;\r
         default:\r

@@ -14,7 +14,7 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {
                 return
             } else {
                 prisma = new PrismaClient()
-                post = prisma.post.findUnique({
+                post = await prisma.post.findUnique({
                     where: { id: +req.params.postId },
                     include: { author: true }
                 })
