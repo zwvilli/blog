@@ -6,15 +6,26 @@ import { RightContent } from '@ant-design/pro-components';
 import { RunTimeLayoutConfig } from '@umijs/max';
 import type { ProSettings } from '@ant-design/pro-components';
 import { history } from 'umi';
-import { getCookie } from '@/utils/cookie'
+import { getCookie, removeCookie } from '@/utils/cookie'
+import Avt from './components/avt'
+import userInfo from './models/userInfo';
 
 export async function getInitialState() {
   let userState = {
     isLogin: false,
-    userInfo: null
+    userInfo: {},
+    level: 1
   }
-  console.log("getInitialState运行时配置", userState)
-
+  let loaclInfo = localStorage.getItem('userInfo')
+  if (loaclInfo) {
+    loaclInfo = JSON.parse(loaclInfo)
+    userState.isLogin = true,
+      userState.userInfo = {
+        username: loaclInfo.name,
+        avatarUrl: loaclInfo.avatarUrl
+      },
+      userState.level = loaclInfo.level
+  }
   return userState
 }
 
@@ -29,17 +40,20 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     },
     fixSiderbar: true,
     layout: 'mix',
-    avatarProps: {
-      src: 'https://img2.baidu.com/it/u=2308712963,3942473931&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-      size: 'small',
-      title: 'admin',
-    },
+    // avatarProps: {
+    //   src: 'https://img2.baidu.com/it/u=2308712963,3942473931&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+    //   size: 'small',
+    //   title: 'admin',
+    // },
+    siderWidth: 180,
     onPageChange: () => {
-      if (!initialState.isLogin && !getCookie('token')) {
+      if (!initialState.isLogin) {
         history.push('/login')
       }
-
     },
+    rightRender: () => {
+      return <Avt></Avt>
+    }
   };
 };
 

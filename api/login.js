@@ -19716,7 +19716,6 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
             await prisma.$disconnect()\r
             break;\r
         case 'POST':\r
-            console.log(req)\r
             if (!req.cookies?.token) {\r
                 return res.status(400).json({ message: "Unauthorized" })\r
             }\r
@@ -19851,7 +19850,6 @@ import { signToken } from "@/utils/jwt";\r
 \r
 export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
     switch (req.method) {\r
-\r
         case 'POST':\r
             try {\r
                 const prisma = new PrismaClient()\r
@@ -19864,7 +19862,6 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
                     return res.status(401).json({ message: "Invaild email or password!" })\r
                 }\r
                 res.status(200).setCookie('token', await signToken(user.id)).json({ ...user, passwordHash: undefined })\r
-                console.log("res", res);\r
                 await prisma.$disconnect()\r
 \r
             } catch (error) {\r

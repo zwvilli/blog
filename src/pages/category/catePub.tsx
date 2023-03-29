@@ -1,7 +1,7 @@
 import { Button, Form, Input, Select, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import request from "umi-request";
-
+import { connect } from 'umi'
 
 const { Option } = Select;
 
@@ -14,7 +14,7 @@ const tailLayout = {
     wrapperCol: { offset: 12, span: 12 },
 };
 
-const catePub: React.FC = () => {
+const catePub: React.FC = (probs) => {
     const [form] = Form.useForm();
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -32,7 +32,6 @@ const catePub: React.FC = () => {
     };
 
     const onFinish = async (values: any) => {
-        // console.log(values);
         try {
             const name = values.category
             loading()
@@ -41,7 +40,6 @@ const catePub: React.FC = () => {
                     name: name
                 }
             })
-            console.log("res", res);
             onReset()
             success()
 
@@ -83,4 +81,4 @@ const catePub: React.FC = () => {
 };
 
 
-export default catePub
+export default connect()(catePub) 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Space, Table, Tag, Button, Switch, message, Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import request from "umi-request";
-import { history } from "umi";
+import { history, useAccess } from "umi";
 
 interface DataType {
     key: string;
@@ -21,7 +21,7 @@ type TablePaginationPosition =
     | 'bottomRight';
 
 const App: React.FC = () => {
-
+    const access = useAccess();
     const columns: ColumnsType<DataType> = [
         {
             title: '序号',
@@ -76,11 +76,14 @@ const App: React.FC = () => {
             render: (text: any, record: any, index: any) => (
                 <Space size="middle">
                     <Button type="link" size='small' onClick={() => {
-                        // updateUser(record)
-                        console.log(record)
-                        history.push('/admin/user/update', record)
-                        console.log("history", history)
-
+                        if (access.admin) {
+                            console.log(record)
+                            history.push('/admin/user/update', record)
+                            console.log("history", history)
+                        }
+                        else {
+                            alert('抱歉，你没有权限使用该功能')
+                        }
                     }}>编辑</Button>
                     <Button type="link" size='small' onClick={() => {
                         // deleteUserByid(record)

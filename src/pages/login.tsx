@@ -1,14 +1,14 @@
 
 import styles from './login.less';
 import { Card, message, Button, Checkbox, Form, Input, Row, Col } from 'antd';
-import React from 'react';
-import { useModel, history } from 'umi';
+import React, { useEffect } from 'react';
+import { useModel, history, connect } from 'umi';
 import request from 'umi-request';
 import { signToken } from "@/utils/jwt";
 
-const App = () => {
+const App = (probs) => {
   const { initialState, setInitialState } = useModel('@@initialState');
-
+  const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
 
   const loading = () => {
@@ -24,21 +24,32 @@ const App = () => {
     });
   };
 
-
   const onFinish = async (values: any) => {
     loading()
+    const data = {
+      email: values.email,
+      password: values.password
+    }
+
     const result = await request.post('/api/login', {
-      data: {
-        email: values.email,
-        password: values.password
-      }
+      data
     })
-    console.log("登陆结果", result);
     if (result) {
       success()
       setInitialState({
         isLogin: true,
-        userInfo: result
+        userInfo: result,
+        level: result.level
+      })
+      if (values.remember) {
+        localStorage.setItem('userInfo', JSON.stringify(result))
+      }
+      probs.dispatch({
+        type: 'userInfo/updateUserName',
+        payload: {
+          username: result.name,
+          avatarUrl: result.avatarUrl
+        }
       })
       history.push('/admin')
     }
@@ -47,6 +58,12 @@ const App = () => {
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
+
+  useEffect(() => {
+    let data = localStorage.getItem('userInfo')
+    console.log(data);
+    if (data) form.setFieldsValue(JSON.parse(data))
+  }, [])
 
   return (<Row style={{
     padding: 0,
@@ -59,6 +76,7 @@ const App = () => {
       <Card size="small" title="登录" extra={<a href="#">注册</a>}>
         <Form
           name="basic"
+          form={form}
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 20 }}
           initialValues={{ remember: true }}
@@ -97,4 +115,4 @@ const App = () => {
   </Row>)
 }
 
-export default App;
+export default connect()(App)
