@@ -27,18 +27,6 @@ const HomePage: React.FC = () => {
 
   return (
     <div>
-      {/* {!posts && <p>loading...</p>}
-      {
-        posts && <div>
-          {
-            posts.map(post => <div key={post.id}>
-              <div onClick={() => history.push(`/posts/${post.id}`)}>
-                <p>{post.title}</p>
-              </div>
-            </div>)
-          }
-        </div>
-      } */}
       首页
     </div>
   )

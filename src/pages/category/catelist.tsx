@@ -24,7 +24,12 @@ const cateListApp: React.FC = () => {
             content: '加载成功',
         });
     };
-
+    const deletMess = () => {
+        messageApi.open({
+            type: 'loading',
+            content: '正在删除，请稍后',
+        });
+    };
     async function loadCate() {
         try {
             loading()
@@ -38,18 +43,29 @@ const cateListApp: React.FC = () => {
 
         }
     }
+
+    async function delCate(id: Number) {
+        try {
+            deletMess()
+            const res = await request.delete('/api/category', {
+                data: {
+                    id
+                }
+            })
+            console.log(res);
+
+        } catch (error) {
+            console.error(error)
+
+        }
+    }
+
     const color = ['magenta', 'red', 'volcano', 'orange', 'gold', 'lime', 'green', 'cyan', 'blue', 'geekblue', 'purple']
 
     useEffect(() => {
         loadCate()
     }, [])
 
-    const items: MenuProps['items'] = [
-        {
-            label: '分类标签',
-            key: 'tagLabel',
-            icon: <SettingOutlined />,
-        },]
 
     return (
         <div >
@@ -58,7 +74,7 @@ const cateListApp: React.FC = () => {
                 <p>Category List</p>
                 {/* <Button type="primary" icon={<FormOutlined />}> */}
                 <Button type="primary" size='small' onClick={() => {
-                    history.push('/category/pub')
+                    history.push('/admin/category/pub')
                 }}>
                     添加分类
                 </Button>
@@ -68,7 +84,9 @@ const cateListApp: React.FC = () => {
 
                 <Space size={[0, 8]} wrap>
                     {cateList.map((item, index) => (
-                        <Tag color={color[index % color.length]} key={item.id} closable>{item.name}</Tag>
+                        <Tag color={color[index % color.length]} key={item.id} closable onClose={() => {
+                            delCate(item.id)
+                        }}>{item.name}</Tag>
                     ))}
                 </Space>
             </div>

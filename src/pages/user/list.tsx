@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Space, Table, Tag, Button, Switch, message, Image } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import request from "umi-request";
+import { history } from "umi";
 
 interface DataType {
     key: string;
@@ -10,6 +11,7 @@ interface DataType {
     city: string;
     score: number;
 }
+
 type TablePaginationPosition =
     | 'topLeft'
     | 'topCenter'
@@ -73,8 +75,16 @@ const App: React.FC = () => {
             key: 'action',
             render: (text: any, record: any, index: any) => (
                 <Space size="middle">
-                    <Button type="link" size='small' onClick={() => { updateUser(record) }}>编辑</Button>
                     <Button type="link" size='small' onClick={() => {
+                        // updateUser(record)
+                        console.log(record)
+                        history.push('/admin/user/update', record)
+                        console.log("history", history)
+
+                    }}>编辑</Button>
+                    <Button type="link" size='small' onClick={() => {
+                        // deleteUserByid(record)
+                        console.log(record)
                     }}>删除</Button>
                 </Space>
             ),
@@ -102,13 +112,29 @@ const App: React.FC = () => {
             }
             setData(newData)
         } catch (error) {
+            console.error(error)
+
+        }
+    }
+    async function deleteUserByid(record: any) {
+        try {
+            load()
+            const res = await request.delete('/api/user', {
+                data: {
+                    id: record.id
+                }
+            })
+            console.log("delete res", res)
+            setLoading(true)
+            loadingUser()
+        } catch (error) {
+            console.error(error)
 
         }
     }
 
     async function loadingUser() {
         try {
-
             const res = await fetch('/api/user')
             if (res.status === 200) {
                 setData(await res.json())
@@ -131,7 +157,7 @@ const App: React.FC = () => {
     const load = () => {
         messageApi.open({
             type: 'loading',
-            content: '正在加载，请稍后..',
+            content: '正在删除，请稍后..',
         })
     };
     useEffect(() => {

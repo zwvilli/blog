@@ -12,12 +12,11 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {
             await prisma.$disconnect()
             break;
         case 'POST':
-            // if (!req.cookies?.token) {
-            //     return res.status(400).json({ message: "Unauthorized" })
-            // }
-            // const authorId = (await verifyToken(req.cookies.token)).id
-            const authorId = 1
-            const categoryId = 1
+            if (!req.cookies?.token) {
+                return res.status(400).json({ message: "Unauthorized" })
+            }
+            const authorId = (await verifyToken(req.cookies.token)).id
+            // const authorId = 1
             prisma = new PrismaClient()
             const newPost = await prisma.post.create({
                 data: {
@@ -26,7 +25,7 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {
                     createdAt: new Date(),
                     tags: req.body.tags,
                     authorId,
-                    categoryId,
+                    categoryId: req.body.categoryId,
                     imageUrl: req.body.imageUrl
 
                 }

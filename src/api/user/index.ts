@@ -1,6 +1,7 @@
 import type { UmiApiRequest, UmiApiResponse } from "umi";
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
+import { verifyToken } from "@/utils/jwt";
 
 export default async function (req: UmiApiRequest, res: UmiApiResponse) {
     let prisma: PrismaClient
@@ -36,6 +37,21 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {
                 })
             }
 
+            break;
+        case 'DELETE':
+            if (!req.cookies?.token) {
+                return res.status(400).json({ message: "Unauthorized" })
+            }
+            const authorId = (await verifyToken(req.cookies.token)).id
+            // const authorId = 1
+            prisma = new PrismaClient()
+            const result = await prisma.user.delete({
+                where: {
+                    id: +req.body.id
+                }
+            })
+            res.status(200).json(result)
+            await prisma.$disconnect()
             break;
         default:
             res.status(405).json({ error: "Method not allowed." })

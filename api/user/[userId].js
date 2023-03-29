@@ -8416,9 +8416,11 @@ async function userId_default(req, res) {
 var import_apiRoute = __toESM(require_apiRoute());
 var apiRoutes = [{ "path": "category", "id": "category/index", "file": "category/index.ts", "absPath": "/category", "__content": `import type { UmiApiRequest, UmiApiResponse } from "umi";\r
 import { PrismaClient } from '@prisma/client'\r
+import { verifyToken } from "@/utils/jwt";\r
 \r
 export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
     let prisma: PrismaClient\r
+    let authorId: any\r
     switch (req.method) {\r
         case 'GET':\r
             prisma = new PrismaClient()\r
@@ -8427,10 +8429,10 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
             await prisma.$disconnect()\r
             break;\r
         case 'POST':\r
-            // if (!req.cookies?.token) {\r
-            //     return res.status(400).json({ message: "Unauthorized" })\r
-            // }\r
-            // const authorId = (await verifyToken(req.cookies.token)).id\r
+            if (!req.cookies?.token) {\r
+                return res.status(400).json({ message: "Unauthorized" })\r
+            }\r
+            authorId = (await verifyToken(req.cookies.token)).id\r
             // const authorId = 1\r
             prisma = new PrismaClient()\r
             const newCategory = await prisma.category.create({\r
@@ -8439,6 +8441,21 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
                 }\r
             })\r
             res.status(200).json(newCategory)\r
+            await prisma.$disconnect()\r
+            break;\r
+        case 'DELETE':\r
+            if (!req.cookies?.token) {\r
+                return res.status(400).json({ message: "Unauthorized" })\r
+            }\r
+            authorId = (await verifyToken(req.cookies.token)).id\r
+            // const authorId = 1\r
+            prisma = new PrismaClient()\r
+            const result = await prisma.category.delete({\r
+                where: {\r
+                    id: +req.body.id\r
+                }\r
+            })\r
+            res.status(200).json(result)\r
             await prisma.$disconnect()\r
             break;\r
         default:\r
@@ -8545,12 +8562,12 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
             await prisma.$disconnect()\r
             break;\r
         case 'POST':\r
-            // if (!req.cookies?.token) {\r
-            //     return res.status(400).json({ message: "Unauthorized" })\r
-            // }\r
-            // const authorId = (await verifyToken(req.cookies.token)).id\r
-            const authorId = 1\r
-            const categoryId = 1\r
+            console.log(req)\r
+            if (!req.cookies?.token) {\r
+                return res.status(400).json({ message: "Unauthorized" })\r
+            }\r
+            const authorId = (await verifyToken(req.cookies.token)).id\r
+            // const authorId = 1\r
             prisma = new PrismaClient()\r
             const newPost = await prisma.post.create({\r
                 data: {\r
@@ -8559,7 +8576,7 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
                     createdAt: new Date(),\r
                     tags: req.body.tags,\r
                     authorId,\r
-                    categoryId,\r
+                    categoryId: req.body.categoryId,\r
                     imageUrl: req.body.imageUrl\r
 \r
                 }\r
@@ -8574,6 +8591,7 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
 }` }, { "path": "user", "id": "user/index", "file": "user/index.ts", "absPath": "/user", "__content": `import type { UmiApiRequest, UmiApiResponse } from "umi";\r
 import { PrismaClient } from '@prisma/client'\r
 import bcrypt from 'bcryptjs'\r
+import { verifyToken } from "@/utils/jwt";\r
 \r
 export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
     let prisma: PrismaClient\r
@@ -8595,7 +8613,7 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
                         passwordHash: bcrypt.hashSync(req.body.password, 8),\r
                         avatarUrl: req.body.avatarUrl,\r
                         introduce: req.body.introduce,\r
-                        level: req.body.level\r
+                        level: req.body.level,\r
                     }\r
                 })\r
                 //\u5C06\u7528\u6237\u6570\u636E\uFF08\u4E0D\u5305\u542B\u5BC6\u7801\uFF09\u548CJWT\u4F20\u56DE\u53BB\r
@@ -8609,6 +8627,21 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
                 })\r
             }\r
 \r
+            break;\r
+        case 'DELETE':\r
+            if (!req.cookies?.token) {\r
+                return res.status(400).json({ message: "Unauthorized" })\r
+            }\r
+            const authorId = (await verifyToken(req.cookies.token)).id\r
+            // const authorId = 1\r
+            prisma = new PrismaClient()\r
+            const result = await prisma.user.delete({\r
+                where: {\r
+                    id: +req.body.id\r
+                }\r
+            })\r
+            res.status(200).json(result)\r
+            await prisma.$disconnect()\r
             break;\r
         default:\r
             res.status(405).json({ error: "Method not allowed." })\r
@@ -8676,9 +8709,8 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {\r
                 if (!user || !bcrypt.compareSync(req.body.password, user.passwordHash)) {\r
                     return res.status(401).json({ message: "Invaild email or password!" })\r
                 }\r
-\r
                 res.status(200).setCookie('token', await signToken(user.id)).json({ ...user, passwordHash: undefined })\r
-\r
+                console.log("res", res);\r
                 await prisma.$disconnect()\r
 \r
             } catch (error) {\r

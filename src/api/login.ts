@@ -5,7 +5,6 @@ import { signToken } from "@/utils/jwt";
 
 export default async function (req: UmiApiRequest, res: UmiApiResponse) {
     switch (req.method) {
-
         case 'POST':
             try {
                 const prisma = new PrismaClient()
@@ -17,9 +16,7 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {
                 if (!user || !bcrypt.compareSync(req.body.password, user.passwordHash)) {
                     return res.status(401).json({ message: "Invaild email or password!" })
                 }
-
                 res.status(200).setCookie('token', await signToken(user.id)).json({ ...user, passwordHash: undefined })
-
                 await prisma.$disconnect()
 
             } catch (error) {
