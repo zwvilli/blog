@@ -6,28 +6,29 @@ import { Redis } from "@upstash/redis";
 export default async function (req: UmiApiRequest, res: UmiApiResponse) {
     let prisma: PrismaClient
     switch (req.method) {
-        case 'GET':
-            const redis = Redis.fromEnv();
-            let post = await redis.get('post-' + req.params.postId)
-            if (post) {
-                res.status(200).json(post)
-                return
-            } else {
+        case 'POST':
+            try {
                 prisma = new PrismaClient()
-                post = await prisma.post.findUnique({
-                    where: { id: +req.params.postId },
-                    include: { author: true }
+                let post = await prisma.post.update({
+                    where: { id: +req.body.postId },
+                    data: {
+                        title: req.body.title,
+                        content: req.body.content,
+                        updatedAt: new Date(),
+                        tags: req.body.tags,
+                        categoryId: req.body.categoryId,
+                        imageUrl: req.body.imageUrl
+                    }
                 })
-                if (post) {
-                    res.status(200).json(post)
-                }
-                else {
-                    res.status(404).json({ merror: "page not found" })
-                }
-                await redis.set('post-' + req.params.postId, JSON.stringify(post))
-                prisma.$disconnect()
+                res.status(201).json(post)
+                await prisma.$disconnect()
+            } catch (error: any) {
+                res.status(500).json({
+                    result: false,
+                    message: typeof error.code === 'string' ? 'https://www.prisma.io/docs/reference/api-reference/error-reference#' + error.code.toLowerCase() : error
+                })
             }
-            break;
+            break
         default:
             res.status(405).json({ error: "Method not allowed" })
     }

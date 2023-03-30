@@ -32,7 +32,19 @@ export default async function (req: UmiApiRequest, res: UmiApiResponse) {
             })
             res.status(200).json(newPost)
             await prisma.$disconnect()
-
+            break;
+        case 'DELETE':
+            if (!req.cookies?.token) {
+                return res.status(400).json({ message: "Unauthorized" })
+            }
+            prisma = new PrismaClient()
+            const result = await prisma.post.delete({
+                where: {
+                    id: +req.body.id
+                }
+            })
+            res.status(200).json(result)
+            await prisma.$disconnect()
             break;
         default:
             res.status(405).json({ error: "Method not allowed." })
